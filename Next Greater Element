@@ -1,0 +1,44 @@
+find next greater by using stack put last element next greater to -1 and then put last element into stack and start loop from last second element if last second element is greater than equal to st .peek() then pop 
+from stack until any element in stack is greater than last second element now if stack empty put last second element next greater element -1 and put element into stack until scanning all element 
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        // make a map for array with its next greater element
+        int[] nge=findnextgreaterright(nums2);
+        HashMap<Integer,Integer>hm=new HashMap<>();
+        int[] ans=new int[nums1.length];
+        for (int i=0;i<nums2.length;i++)
+        {
+            hm.put(nums2[i],nge[i]);
+        }
+        for (int i=0;i<nums1.length;i++)
+        {
+            ans[i]=hm.get(nums1[i]);
+        }
+        return ans;
+
+    }
+    int[] findnextgreaterright(int[] a)
+    {
+        int[] nge=new int[a.length];
+        Stack<Integer>st=new Stack<>();
+        nge[a.length-1]=-1;
+        st.push(a[a.length-1]);
+        for (int i=a.length-2;i>=0;i--)
+        {
+            while(st.size()>0 &&  a[i]>=st.peek())
+            {
+                st.pop();
+            }
+            if (st.size()==0)
+            {
+                nge[i]=-1;
+            }
+            else
+            {
+                nge[i]=st.peek();
+            }
+            st.push(a[i]);
+        }
+        return nge;
+    }
+}
