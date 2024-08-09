@@ -1,0 +1,45 @@
+// o(N^2) 
+class Solution {
+    public int[] nextGreaterElements(int[] a) {
+        // use circular array concept mod n
+        // t.c O(n^2)
+        int n =a.length;
+        int[] nge = new int[n];
+        Arrays.fill(nge,-1);
+        for (int i=0;i<n;i++)
+        {
+            for (int j=i+1;j<=n+i-1;j++)  // important
+            {
+                int idx =j%n;
+               if (a[i]<a[idx])
+               {
+                nge[i]=a[idx];
+                break;
+               }
+              
+            }
+        }
+        return nge;
+    }
+}
+
+class Solution {
+    public int[] nextGreaterElements(int[] a) {
+        Stack<Integer>st = new Stack<>();
+        int[] nge = new int[a.length];
+        int n = a.length;
+        for (int i=2*n-1;i>=0;i--)
+        {
+            while(!st.isEmpty() && a[i%n]>=st.peek())
+            {
+                st.pop();
+            }
+            if (i<n)
+            {
+                nge[i]=st.isEmpty() ? -1 : st.peek();
+            }
+           st.push(a[i%n]);
+        }
+        return nge;
+    }
+}
